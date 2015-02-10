@@ -1,8 +1,12 @@
 library(shiny)
 library(stringr)
 library(codemog)
-library("codemogProfile")
+library(codemogProfile)
 library(dplyr)
+load("data/County_Est")
+load("data/County_Forecast")
+load("data/muni_est")
+
 
 c_names=county_est%>%
   filter(year==2010)%>%
