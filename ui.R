@@ -1,9 +1,9 @@
 library(shiny)
 library(codemog)
 library(dplyr)
-load("data/County_Est")
-load("data/County_Forecast")
-load("data/muni_est")
+load("/opt/shiny-server/samples/sample-apps/onlineprofileapp/data/county_est.rdata")
+load("/opt/shiny-server/samples/sample-apps/onlineprofileapp/data/county_forecast.rdata")
+load("/opt/shiny-server/samples/sample-apps/onlineprofileapp/data/muni_est.rdata")
 
 c_names=county_est%>%
   filter(year==2010)%>%
@@ -24,6 +24,7 @@ shinyUI(fluidPage(
          tabsetPanel(
               tabPanel("Population",
                        plotOutput("cpop_plot")),
+                       #dataTableOutput("cmuniwin_table")),
               tabPanel("Population Forecast",
                        plotOutput("cpop_fplot")),
               tabPanel("Housing & Households",
