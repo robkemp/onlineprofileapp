@@ -23,10 +23,13 @@ shinyUI(fluidPage(
        mainPanel(
          tabsetPanel(
               tabPanel("Population",
-                       plotOutput("cpop_plot")),
-                       #dataTableOutput("cmuniwin_table")),
+                       plotOutput("cpop_plot"),
+                       downloadButton('downloadpopData', "Download Data"),
+                       dataTableOutput('pop_table')),
               tabPanel("Population Forecast",
-                       plotOutput("cpop_fplot")),
+                       plotOutput("cpop_fplot"),
+                       downloadButton('downloadfpopData', "Download Data"),
+                       dataTableOutput('fpop_table'))),
               tabPanel("Housing & Households",
                        plotOutput("chh_plot")),
               tabPanel("Race & Ethnicity",

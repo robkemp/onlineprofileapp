@@ -83,11 +83,23 @@ shinyServer(function(input, output) {
   cpop_plot_input=reactive({county_ts_chart(as.numeric(cntyfips()))})
   output$cpop_plot=renderPlot({cpop_plot_input()})
  #Population Table
-#cmuniwin_input=reactive({muni_win_est%>%filter(year==2013, countyfips==cntyfips()})
-#output$cmuniwin_table=renderDataTable({cmuniwin_input()})
+output$pop_table=renderDataTable({cpop_plot_input()$data%>%select(-type, -countyfips)})
+output$downloadpopData <- downloadHandler(
+  filename = function() { 
+    paste(cntyfips(), "_pop", '.csv', sep='') 
+  },
+  content = function(file) {
+    write.csv(cpop_plot_input()$data, file, row.names = FALSE)})
  # Population Forecast Chart
  cpop_fplot_input=reactive({county_ts_chart(as.numeric(cntyfips()), 2014,2040)})
  output$cpop_fplot=renderPlot({cpop_fplot_input()})
+ output$fpop_table=renderDataTable({cpop_fplot_input()$data%>%select(-type, -countyfips)})
+ output$downloadfpopData <- downloadHandler(
+   filename = function() { 
+     paste(cntyfips(), "_pop", '.csv', sep='') 
+   },
+   content = function(file) {
+     write.csv(cpop_fplot_input()$data, file, row.names = FALSE)})
  # Household Chart
  chh_plot_input=reactive({ms_hh(cntyfips())})
  output$chh_plot=renderPlot({chh_plot_input()})
