@@ -8,7 +8,7 @@ load("/opt/shiny-server/samples/sample-apps/onlineprofileapp/data/county_forecas
 load("/opt/shiny-server/samples/sample-apps/onlineprofileapp/data/muni_est.rdata")
 load("/opt/shiny-server/samples/sample-apps/onlineprofileapp/data/muni_win_est.rdata")
 load("/opt/shiny-server/samples/sample-apps/onlineprofileapp/data/muni_hist.rdata")
-
+load("/opt/shiny-server/samples/sample-apps/onlineprofileapp/data/county_base.rdata")
 
 county_forecast=county_forecast
 muni_est=muni_est
@@ -103,6 +103,13 @@ output$downloadpopData <- downloadHandler(
  # Household Chart
  chh_plot_input=reactive({ms_hh(cntyfips())})
  output$chh_plot=renderPlot({chh_plot_input()})
+ output$chh_table=renderDataTable({chh_plot_input()$data%>%select(geoname, year, var, Value)})
+ output$downloadchhData <- downloadHandler(
+   filename = function() { 
+     paste(cntyfips(), "_hh", '.csv', sep='') 
+   },
+   content = function(file) {
+     write.csv(chh_plot_input()$data, file, row.names = FALSE)})
  # Race 
  crace_table_input=reactive({ms_race(cntyfips())%>%select(race, Census.2010, Census.2000)})
  output$crace_table=renderDataTable({crace_table_input()})
@@ -132,3 +139,5 @@ output$minc_plot=renderPlot({minc_plot_input()})
 med_plot_input=reactive({ms_ed(munifips())})
 output$med_plot=renderPlot({med_plot_input()})
 })
+
+
